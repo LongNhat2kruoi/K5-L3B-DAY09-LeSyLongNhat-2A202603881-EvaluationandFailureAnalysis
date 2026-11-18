@@ -43,11 +43,18 @@ def build(source: Path = SOURCE) -> tuple[int, int]:
     items, labels = [], {}
     for n, claim in enumerate(claims, start=1):
         item_id = f"E-{n:03d}"
+        matrix = claim.get("matrix_id") or ""
+        tags = {
+            "T01": ["FM-01"], "T02": ["FM-03"], "T03": ["FM-06"], "T04": ["FM-02"],
+            "T05": ["FM-04"], "T06": ["FM-05"], "T07": ["FM-07"], "T08": ["FM-02"],
+            "T09": ["FM-08"], "T10": ["FM-09"], "T11": ["FM-01", "FM-07"], "T12": ["FM-03"],
+            "T13": ["FM-02", "FM-05"], "T14": ["FM-05"],
+        }.get(matrix, ["FM-03"])
         items.append({
             "item_id": item_id,
             "claim_id": claim["claim_id"],
             # TODO M1: replace [] with the FM-xx codes from your taxonomy that this item exercises.
-            "failure_modes": [],
+            "failure_modes": tags,
             "provenance": {"source": "lab8_public", "matrix_id": claim.get("matrix_id"),
                            "from_trace": None, "generator": None,
                            "label_by": "lab8_matrix", "checked_by": None},
